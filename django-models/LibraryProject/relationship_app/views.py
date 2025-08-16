@@ -12,6 +12,6 @@ def list_books(request):
 # Class-based View: Display details for a specific library
 class LibraryDetailView(DetailView):
     model = Library
-    template_name = 'relationship_app/library_detail.html'
+    template_name = 'relationship_app/templates/library_detail.html'
     context_object_name = 'library'
 
