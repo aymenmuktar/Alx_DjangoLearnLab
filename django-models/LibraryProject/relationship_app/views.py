@@ -33,7 +33,7 @@ def register_view(request):
             login(request, user)  # Auto login after registration
             return redirect("home")  # Change "home" to your homepage route
     else:
-        form = RegisterForm()
+        form = UserCreationForm()
     return render(request, "relationship_app/register.html", {"form": form})
 
 
