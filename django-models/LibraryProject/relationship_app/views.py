@@ -13,18 +13,18 @@ from django.views.generic.detail import DetailView
 
 # Helper functions for role checking
 def is_admin(user):
-    return hasattr(user, 'userprofile') and user.userprofile.role == 'Admin'
+    return hasattr(user, 'profile') and user.userprofile.role == 'Admin'
 
 def is_librarian(user):
-    return hasattr(user, 'userprofile') and user.userprofile.role == 'Librarian'
+    return hasattr(user, 'profile') and user.userprofile.role == 'Librarian'
 
 def is_member(user):
-    return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
+    return hasattr(user, 'profile') and user.userprofile.role == 'Member'
 
 # Admin view
 @user_passes_test(is_admin)
 def admin_view(request):
-    return render(request, '/admin_view.html')
+    return render(request, '/relationship_app/admin_view.html')
 
 # Librarian view
 @user_passes_test(is_librarian)
