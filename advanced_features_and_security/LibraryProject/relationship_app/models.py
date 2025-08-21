@@ -3,7 +3,8 @@ from django.conf import settings
 from django.db import models
 
 class Book(models.Model):
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    title = models.CharField(max_length=200)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,related_name="relationship_books")
 
 # Custom User Manager
 class CustomUserManager(BaseUserManager):
