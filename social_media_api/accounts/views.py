@@ -9,11 +9,11 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 from django.db.models import Prefetch
 
-from .models import Post, CustomUser
+from .models import CustomUser
+from posts.models import Post
 from .serializers import PostSerializer
 from django.contrib.auth import authenticate
-from .serializers import PostSerializer,RegisterSerializer, UserSerializer,MeSerializer,
-    PublicUserSerializer,
+from .serializers import PostSerializer,RegisterSerializer, UserSerializer,MeSerializer,PublicUserSerializer
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -57,7 +57,7 @@ class FeedPagination(PageNumberPagination):
     page_size = 20
     page_query_param = "page"
 
-    class UserListView(generics.ListAPIView):
+class UserListView(generics.ListAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = PublicUserSerializer
     permission_classes = [permissions.AllowAny]
