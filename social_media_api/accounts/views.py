@@ -15,7 +15,33 @@ from .serializers import PostSerializer
 from django.contrib.auth import authenticate
 from .serializers import PostSerializer,RegisterSerializer, UserSerializer,MeSerializer,PublicUserSerializer
 from django.contrib.auth import get_user_model
+from .serializers import UserSerializer
+from notifications.utils import create_notification
 
+User = get_user_model()
+
+class FollowUserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, pk):
+        try:
+            target_user = User.objects.get(pk=pk)
+        except User.DoesNotExist:
+            return Response({'detail': 'User not found'}, status=404)
+
+        request.user.following.add(target_user)
+        create_notification(
+            recipient=target_user,
+            actor=request.user,
+            verb="followed you"
+        )
+        return Response({'detail': f'You are now following {target_user.username}'})
+class MeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 User = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
