@@ -12,7 +12,7 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .models import Post, Like, Comment
 from notifications.utils import create_notification
-from rest_framework import generics
+from rest_framework import generics, permissions
 from notifications.models import Notification
 
 class LikePostView(generics.GenericAPIView):
@@ -104,8 +104,9 @@ class FeedPagination(PageNumberPagination):
     page_query_param = "page"
 
 
-class FeedView(APIView):
-    permission_classes = [IsAuthenticated]
+class FeedView((generics.ListAPIView):
+    serializer_class = PostSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
         following_qs = request.user.following.all().values_list("pk", flat=True)
