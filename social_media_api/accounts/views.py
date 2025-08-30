@@ -17,10 +17,13 @@ from .serializers import PostSerializer,RegisterSerializer, UserSerializer,MeSer
 from django.contrib.auth import get_user_model
 from .serializers import UserSerializer
 from notifications.utils import create_notification
+from rest_framework import status, permissions, generics
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
 User = get_user_model()
 
-class FollowUserView(APIView):
+class FollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, pk):
@@ -37,7 +40,7 @@ class FollowUserView(APIView):
         )
         return Response({'detail': f'You are now following {target_user.username}'})
 
-class UnfollowUserView(APIView):
+class UnfollowUserView(generics.GenericAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def post(self, request, user_id):
