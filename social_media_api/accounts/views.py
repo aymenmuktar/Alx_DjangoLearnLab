@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate
 from django.contrib.auth import get_user_model
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, status
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -21,6 +21,13 @@ User = get_user_model()
 class RegisterView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = RegisterSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        user = serializer.save()
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({"user": UserSerializer(user).data, "token": token.key}, status=status.HTTP_201_CREATED)
 
     def create(self, request, *args, **kwargs):
         response = super().create(request, *args, **kwargs)
@@ -49,6 +56,11 @@ class ProfileView(generics.RetrieveUpdateAPIView):
 class FeedPagination(PageNumberPagination):
     page_size = 20
     page_query_param = "page"
+
+    class UserListView(generics.ListAPIView):
+    queryset = CustomUser.objects.all()
+    serializer_class = PublicUserSerializer
+    permission_classes = [permissions.AllowAny]
 
 
 class FeedView(APIView):
