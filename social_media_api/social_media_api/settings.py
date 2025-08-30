@@ -25,7 +25,15 @@ SECRET_KEY = 'django-insecure-+*v_+-frn9)5u9b-nvv)e$cff-c8u9q%c_%0)0baftt&!6geir
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['cloth store.herokuapp.com', '127.0.0.1']
+
+# Security settings
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_SSL_REDIRECT = True  # Ensure HTTPS
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 # Application definition
@@ -45,6 +53,7 @@ INSTALLED_APPS = [
     # Local apps
     'accounts',
     'posts',
+    'notifications',
 ]
 AUTH_USER_MODEL = "accounts.CustomUser"
 
