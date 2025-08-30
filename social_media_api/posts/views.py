@@ -17,7 +17,7 @@ from notifications.models import Notification
 
 class LikePostView(generics.GenericAPIView):
     ...
-    post(self, request, pk):
+    def post(self, request, pk):
         post = generics.get_object_or_404(Post, pk=pk)
         ...
         Notification.objects.create(...)
@@ -104,11 +104,12 @@ class FeedPagination(PageNumberPagination):
     page_query_param = "page"
 
 
-class FeedView((generics.ListAPIView):
+class FeedView(generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
+    pagination_class = FeedPagination
     
-     def get_queryset(self):
+    def get_queryset(self):
         user = self.request.user
         following_users = user.following.all()  # get users current user is following
         return Post.objects.filter(author__in=following_users).order_by('-created_at')
