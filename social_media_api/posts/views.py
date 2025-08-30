@@ -12,6 +12,16 @@ from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .models import Post, Like, Comment
 from notifications.utils import create_notification
+from rest_framework import generics
+from notifications.models import Notification
+
+class LikePostView(generics.GenericAPIView):
+    ...
+    post(self, request, pk):
+        post = generics.get_object_or_404(Post, pk=pk)
+        ...
+        Notification.objects.create(...)
+
 
 class LikePostView(APIView):
     permission_classes = [IsAuthenticated]
