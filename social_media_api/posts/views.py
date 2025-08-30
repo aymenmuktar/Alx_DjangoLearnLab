@@ -107,6 +107,11 @@ class FeedPagination(PageNumberPagination):
 class FeedView((generics.ListAPIView):
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticated]
+    
+     def get_queryset(self):
+        user = self.request.user
+        following_users = user.following.all()  # get users current user is following
+        return Post.objects.filter(author__in=following_users).order_by('-created_at')
 
     def get(self, request):
         following_qs = request.user.following.all().values_list("pk", flat=True)
