@@ -1,12 +1,22 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Post, Comment
+from .models import Post, Like
+from accounts.serializers import PublicUserSerializer
 
 User = get_user_model()
+
+
+class LikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Like
+        fields = ['id', 'user', 'post', 'created_at']
+
 
 class PostSerializer(serializers.ModelSerializer):
     author_username = serializers.ReadOnlyField(source="author.username")
     comment_count = serializers.SerializerMethodField()
+    author = PublicUserSerializer(read_only=True)
 
     class Meta:
         model = Post
