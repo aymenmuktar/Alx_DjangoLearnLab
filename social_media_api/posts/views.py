@@ -6,12 +6,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.pagination import PageNumberPagination
 from django.db.models import Prefetch
-from .models import Post, Comment
 from .serializers import PostSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
 from rest_framework import status
 from django.shortcuts import get_object_or_404
-from .models import Post, Like
+from .models import Post, Like, Comment
 from notifications.utils import create_notification
 
 class LikePostView(APIView):
