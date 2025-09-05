@@ -5,6 +5,8 @@ from django.dispatch import receiver
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.conf import settings
 
+class SomeModel(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 # ----------------------
 # Custom User Model and Manager
 # ----------------------
