@@ -20,12 +20,18 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-n&r6-pm+!5ugo-t(*vi2et9k%wye_=l!7-x5(!kc%q3(kqq+a0'
+SECRET_KEY = 'django-insecure-59nc3om9zt4352-6jk07z6ayx9sz!4*68)^0#v_**a3scqg4^('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
+AUTH_USER_MODEL = 'LibraryProject.CustomUser'  # app_name.ModelName
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Application definition
@@ -37,8 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'bookshelf',
-    'relationship_app',
+    'LibraryProject.relationship_app',
 ]
 
 MIDDLEWARE = [
@@ -122,4 +127,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-AUTH_USER_MODEL = "relationship_app.CustomUser"
